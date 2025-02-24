@@ -8,7 +8,7 @@ pipeline {
         BRANCH = 'dev'
         DOMAIN_ONLY_NAME = 'dlocksltd'
         NGINX_CONF_DIR = '/etc/nginx/conf.d'
-        DOMAIN_NAME = 'dlocksltd.local'
+        DOMAIN_NAME = 'dlocksltd.scom'
         PORT = '10122'
     }
 
