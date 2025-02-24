@@ -727,7 +727,7 @@
 							<div class="author-info">
 								<div class="author-inner">
 									
-									<h6> Henry Cavill</h6>
+									<h6> Henry Cavill.</h6>
 								</div>
 							</div>
 						</div>
