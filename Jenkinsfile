@@ -1,17 +1,17 @@
 pipeline {
-    agent { label 'FOURTH' }
+    agent { label 'FIFTH' }
 
     environment {
-        GIT_REPO_URL = 'https://github.com/KeithWade22/gateauwala.git'
+        GIT_REPO_URL = 'https://github.com/KeithWade22/dlocksltd.git'
         GIT_CREDENTIALS_ID = 'Git-Cred'
         BRANCH = 'main'
-        DOCKER_IMAGE_NAME = 'gateauwala-image:latest'
-        DOCKER_CONTAINER_NAME = 'gateauwala'
+        DOCKER_IMAGE_NAME = 'dlocksltd-image:latest'
+        DOCKER_CONTAINER_NAME = 'dlocksltd'
         //SUDO_PASSWORD = "wX5M]aP9JGN~Nr5.:rP-zyZ"
         DOCKER_COMPOSE_FILE = './docker-compose.yml'
         NGINX_CONF_DIR = '/etc/nginx/conf.d'
-        DOMAIN_NAME = 'gateauwala.com'
-        PORT = '10076'
+        DOMAIN_NAME = 'dlocksltd.com'
+        PORT = '10122'
     }
 
     stages {
@@ -21,7 +21,7 @@ pipeline {
                 script {
 
                     echo 'Cleaning up the work directory...'
-                    sh 'rm -rf ./gateauwala'
+                    sh 'rm -rf ./dlocksltd'
                     
                     // Define container names
                     def containers = ['container_$DOCKER_CONTAINER_NAME', 'nginx-$DOCKER_CONTAINER_NAME']
@@ -144,7 +144,7 @@ EOF
                 script {
                     sh '''
                         echo "Starting Docker for Selenium testing"
-                        docker exec selenium-test bash -c "python3 /app/selinium_html_test.py --domain gateauwala.com"
+                        docker exec selenium-test bash -c "python3 /app/selinium_html_test.py --domain dlocksltd.com"
                         docker cp selenium-test:/app/redirection_results.txt .
                         docker exec selenium-test bash -c "rm redirection_results.txt"
                     '''

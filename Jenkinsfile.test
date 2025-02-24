@@ -2,14 +2,14 @@ pipeline {
     agent { label 'HTML2' }
 
     environment {
-        GIT_REPO_URL = 'https://github.com/KeithWade22/gateauwala.git'
+        GIT_REPO_URL = 'https://github.com/KeithWade22/dlocksltd.git'
         GIT_CREDENTIALS_ID = 'Git-Cred'
         ROOT_LOCATION = '/var/www/html'
         BRANCH = 'dev'
-        DOMAIN_ONLY_NAME = 'gateauwala'
+        DOMAIN_ONLY_NAME = 'dlocksltd'
         NGINX_CONF_DIR = '/etc/nginx/conf.d'
-        DOMAIN_NAME = 'gateauwala.local'
-        PORT = '10076'
+        DOMAIN_NAME = 'dlocksltd.local'
+        PORT = '10122'
     }
 
     stages {
@@ -29,7 +29,7 @@ pipeline {
                     echo "Checking out from branch: ${BRANCH} from repository: ${GIT_REPO_URL}"
 
                     // Checkout Git repository using the `checkout` step
-                    checkout scmGit(branches: [[name: '*/dev']], extensions: [], userRemoteConfigs: [[credentialsId: 'prod-git', url: 'https://github.com/KeithWade22/gateauwala.git']])
+                    checkout scmGit(branches: [[name: '*/dev']], extensions: [], userRemoteConfigs: [[credentialsId: 'prod-git', url: 'https://github.com/KeithWade22/dlocksltd.git']])
                 }
             }
         }
