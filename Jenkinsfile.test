@@ -1,0 +1,78 @@
+pipeline {
+    agent { label 'HTML2' }
+
+    environment {
+        GIT_REPO_URL = 'https://github.com/KeithWade22/gateauwala.git'
+        GIT_CREDENTIALS_ID = 'Git-Cred'
+        ROOT_LOCATION = '/var/www/html'
+        BRANCH = 'dev'
+        DOMAIN_ONLY_NAME = 'gateauwala'
+        NGINX_CONF_DIR = '/etc/nginx/conf.d'
+        DOMAIN_NAME = 'gateauwala.local'
+        PORT = '10076'
+    }
+
+    stages {
+        stage('Remove previous build') {
+            steps {
+                echo "the work directory is ${WORKSPACE} "
+                sh """
+                rm -rf ${ROOT_LOCATION}/${DOMAIN_ONLY_NAME}
+                """
+            }
+        }
+
+        stage('Git Checkout') {
+            steps {
+                script {
+                    // Ensure BRANCH, GIT_CREDENTIALS_ID, and GIT_REPO_URL are defined
+                    echo "Checking out from branch: ${BRANCH} from repository: ${GIT_REPO_URL}"
+
+                    // Checkout Git repository using the `checkout` step
+                    checkout scmGit(branches: [[name: '*/dev']], extensions: [], userRemoteConfigs: [[credentialsId: 'prod-git', url: 'https://github.com/KeithWade22/gateauwala.git']])
+                }
+            }
+        }
+
+        stage('Copy Files to The Root') {
+            steps {
+                script {
+                    // Ensure that files are correctly copied to the root location
+                    echo "Copying files to the root location..."
+                    sh """
+                    mkdir -p ${ROOT_LOCATION}/${DOMAIN_ONLY_NAME}
+                    mv ${WORKSPACE}/${DOMAIN_ONLY_NAME} ${ROOT_LOCATION}/
+                    """
+                }
+            }
+        }
+
+        stage('Extract Port and Create Nginx Config') {
+            steps {
+                script {
+                    // Ensure the Nginx config directory exists
+                    sh """
+                    mkdir -p ${NGINX_CONF_DIR}
+                    cp ${WORKSPACE}/nginx/nginx_test.conf ${NGINX_CONF_DIR}/${DOMAIN_ONLY_NAME}.conf
+                    systemctl restart nginx.service
+                    """
+                    echo "Nginx reverse proxy configuration created successfully in ${NGINX_CONF_DIR}."
+                }
+            }
+        }
+
+        
+    }
+
+    post {
+        always {
+            echo 'Cleaning up after the pipeline...'
+        }
+        success {
+            echo 'Build and Deployment Successful!'
+        }
+        failure {
+            echo 'Build or Deployment Failed.'
+        }
+    }
+}
