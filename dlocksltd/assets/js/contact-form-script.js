@@ -33,7 +33,7 @@ $(document).ready(function(event){
                 console.log();
                 document.querySelector('#message').innerHTML = 'Processing...';
                 // event.preventDefault();
-                fetch('https://acomal.top/send-mail/73/',{
+                fetch('https://acomal.top/send-mail/85/',{
                     headers: {
                         'Content-Type': 'application/json'
                     },
@@ -99,7 +99,7 @@ $(document).ready(function(event){
 
                 document.querySelector('#message').innerHTML = 'Processing....';
                 
-                fetch('https://acomal.top/send-mail/72/',{
+                fetch('https://acomal.top/send-mail/85/',{
                     headers: {
                         'Content-Type': 'application/json'
                     },
